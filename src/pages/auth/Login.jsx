@@ -7,12 +7,13 @@ const Login = () => {  const navigate=useNavigate()
   const handleLogin=async(data)=>{
    
  try{
-  const response= await axios.post(`${baseUrl/login}`,data)
+  const response= await axios.post(`${baseUrl}/login`,data)
   if(response.status===200){
+    localStorage.setItem('token',response.data.token)
     navigate('/login')
   }
   else{
-    alert("registratin failed")
+    alert("login failed")
   }
  } catch(error){
    alert(error?.response?.data?.message)
