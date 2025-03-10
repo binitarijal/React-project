@@ -10,7 +10,7 @@ const Login = () => {  const navigate=useNavigate()
   const response= await axios.post(`${baseUrl}/login`,data)
   if(response.status===200){
     localStorage.setItem('token',response.data.token)
-    navigate('/login')
+    navigate('/')
   }
   else{
     alert("login failed")
