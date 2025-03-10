@@ -1,13 +1,32 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import { baseUrl } from '../../config'
 
 const SingleBlog = () => {
   const { id } = useParams()
+  const navigate=useNavigate()
   const [blog, setBlog] = useState({})
 
+  const deleteBlog = async () => {
+    try{
+    const response = await axios.delete(`${baseUrl}/blog/${id}`,{
+      headers:{
+        "Authorization": localStorage.getItem('token')
+      }
+    } )
+    if (response.status === 200) {
+      navigate('/')
+    }
+    else{
+      alert('Failed to delete blog')
+    }
+  }
+    catch{
+      alert(error.response.data.message)
+    }
+  }
   const fetchBlog = async () => {
     const response = await axios.get(`${baseUrl}/blog/${id}`)
     if (response.status === 200) {
@@ -56,7 +75,7 @@ const SingleBlog = () => {
         </button>
         </Link>
 
-        <button className="bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition">
+        <button  className="bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition"  onClick={deleteBlog}>
           Delete Blog
         </button>
         
